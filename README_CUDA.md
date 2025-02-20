@@ -23,4 +23,5 @@ uv run --no-sync python ./kokoro-tts "your.epub" --voice af_heart --speed 1.33 -
 uv run --no-sync python ./kokoro-tts "your.epub" --merge-chunks --split-output "output_dir" --format mp3
 
 Or you simply use the `convert-epub.ps1` script:
-./convert-epub.ps1 -Epub your.epub -Speed 1.33 -OutputDir output_dir -Format mp3
+- ./convert-epub.ps1 -Epub your.epub -Speed 1.33 -OutputDir output_dir -Format mp3 -Voice af_heart
+- With default values: ./convert-epub.ps1 -Epub your.epub
