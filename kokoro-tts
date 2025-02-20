@@ -853,7 +853,21 @@ def convert_text_to_audio(input_file, output_file=None, voice=None, speed=1.0, l
 
             if split_output:
                 os.makedirs(split_output, exist_ok=True)
+                # Extract and save cover image if available
+                cover_image = None
+                book = epub.read_epub(input_file)
+                for item in book.get_items():
+                    if item.get_type() == epub.ITEM_COVER:
+                        cover_image = item.get_content()
+                        print(item.get_name())
+                        exit(1)
+                        break
 
+                if cover_image:
+                    cover_image_path = os.path.join(split_output, "cover.jpg")
+                    with open(cover_image_path, "wb") as img_file:
+                        img_file.write(cover_image)
+                    print(f"Cover image saved to {cover_image_path}")
                 # First create all chapter directories and info files
                 print("\nCreating chapter directories and info files...")
                 for chapter_num, chapter in enumerate(chapters, 1):

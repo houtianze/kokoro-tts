@@ -33,4 +33,5 @@ function Convert-EpubToAudio {
     uv run --no-sync python ./kokoro-tts $Epub --merge-chunks --split-output "$OutputDir" --format $Format
 }
 
+$env:ONNX_PROVIDER='CUDAExecutionProvider'
 Convert-EpubToAudio -Epub $Epub -Speed $Speed -OutputDir $OutputDir -Format $Format
