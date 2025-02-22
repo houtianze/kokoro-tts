@@ -842,11 +842,10 @@ def convert_text_to_audio(input_file, output_file=None, voice=None, speed=1.0, l
         sys.exit(1)
 
     # Read the input file (handle .txt or .epub)
-    if input_file.endswith('.epub'):
+    if input_file.lower().endswith('.epub'):
         chapters = extract_chapters_from_epub(input_file, debug)
         if not chapters:
             print("No chapters found in EPUB file.")
-            sys.exit(1)
 
             print("\nPress Enter to start processing, or Ctrl+C to cancel...")
             input()
@@ -857,11 +856,12 @@ def convert_text_to_audio(input_file, output_file=None, voice=None, speed=1.0, l
                 cover_image = None
                 book = epub.read_epub(input_file)
                 for item in book.get_items():
+                    print(item.get_name())
                     if item.get_type() == epub.ITEM_COVER:
-                        cover_image = item.get_content()
                         print(item.get_name())
-                        exit(1)
+                        cover_image = item.get_content()
                         break
+                exit(1)
 
                 if cover_image:
                     cover_image_path = os.path.join(split_output, "cover.jpg")
@@ -893,7 +893,7 @@ def convert_text_to_audio(input_file, output_file=None, voice=None, speed=1.0, l
         parser = PdfParser(input_file, debug=debug)
         chapters = parser.get_chapters()
     else:
-        with open(input_file, 'r', encoding='utf-8') as file:
+        with open(input_file, 'r', encoding='utf-8', errors='ignore') as file:
             text = file.read()
         # Treat single text file as one chapter
         chapters = [{'title': 'Chapter 1', 'content': text}]
